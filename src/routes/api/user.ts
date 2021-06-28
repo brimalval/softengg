@@ -17,8 +17,11 @@ router.post('/', function(req, res, next) {
 
 router.get('/', function(req, res, next) {
   User.find(function (err, users) {
-    if (err) res.send(err);
-
+    if (err) {
+      res.send(err);
+      return;
+    }
+    
     res.json(users);
   });
 });

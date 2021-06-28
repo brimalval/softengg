@@ -3,9 +3,14 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "build": "tsc -p .",
+    "build_frontend": "tsc -p tsconfig.frontend.json",
+    "dev": "ts-node ./src/bin/www.ts",
+    "start": "node ./dist/bin/www"
   },
   "dependencies": {
+    "@types/express": "^4.17.12",
+    "@types/node": "^15.12.4",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
@@ -14,6 +19,10 @@
     "mongoose": "^5.12.14",
     "morgan": "~1.9.1",
     "pug": "2.0.0-beta11",
+    "source-map-loader": "^3.0.0",
+    "ts-loader": "^9.2.3",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.4",
     "ws": "^7.5.0"
   },
   "devDependencies": {
