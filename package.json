@@ -22,5 +22,8 @@
     "@types/mongoose": "^5.11.97",
     "@types/morgan": "^1.9.2",
     "@types/node": "^15.12.5"
+  },
+  "engines":{
+    "node":"14.7.1"
   }
 }
