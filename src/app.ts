@@ -5,7 +5,6 @@ import logger from 'morgan';
 import './db';
 
 import indexRouter from './routes/index';
-import usersRouter from './routes/users';
 import logsApiRouter from './routes/api/log';
 import projectssApiRouter from './routes/api/project';
 import taksApiRouter from './routes/api/task';
@@ -20,7 +19,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 app.use('/api/logs', logsApiRouter);
 app.use('/api/projects', projectssApiRouter);
