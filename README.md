@@ -1,4 +1,3 @@
-call `npm install` on root and on /src/client
-
-`npm run build`
-`npm start`
+- call `npm install` on `./` and on `/src/client`
+- `npm run build`
+- `npm start`
