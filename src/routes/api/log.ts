@@ -1,63 +1,61 @@
-var express = require('express');
-var router = express.Router();
-var Log = require('../../models/log');
+import { Router } from 'express';
+import { LogModel } from '../../models/log';
 
-router.post('/', function(req, res, next) {
-  new Log({ 
-    project: req.body.project,
-    action: req.body.action,
-    date: req.body.date,
-    deliverables: req.body.deliverables,
-    remarks: req.body.remarks,
-  }).save(function (err, log) {
-    if (err) res.send(err);
+var router = Router();
 
-    res.json(log);
- });
+router.post('/', function (req, res, next) {
+    new LogModel({
+        project: req.body.project,
+        action: req.body.action,
+        date: req.body.date,
+        deliverables: req.body.deliverables,
+        remarks: req.body.remarks,
+    }).save(function (err, doc) {
+        if (err) res.send(err);
+
+        res.json(doc);
+    });
 });
 
-router.get('/', function(req, res, next) {
-  Log.find(function (err, logs) {
-    if (err) res.send(err);
+router.get('/', function (req, res, next) {
+    LogModel.find(function (err, docs) {
+        if (err) res.send(err);
 
-    res.json(logs);
-  });
+        res.json(docs);
+    });
 });
 
-router.get('/:id', function(req, res, next) {
-  Log.findById(req.params.id, function (err, log) {
-    if (err) res.send(err);
+router.get('/:id', function (req, res, next) {
+    LogModel.findById(req.params.id, null, null, function (err, doc) {
+        if (err) res.send(err);
 
-    res.json(log);
-  });
+        res.json(doc);
+    });
 });
 
-router.patch('/:id', function(req, res, next) {
-  Log.findByIdAndUpdate(
-    req.params.id,
-    {
-      $set: req.body,
-    },
-    {
-      new: true,
-    },
-    function (err, log) {
-      if (err) res.send(err);
+router.patch('/:id', function (req, res, next) {
+    LogModel.findByIdAndUpdate(
+        req.params.id,
+        {
+            $set: req.body,
+        },
+        {
+            new: true,
+        },
+        function (err, doc) {
+            if (err) res.send(err);
 
-      res.json(log);
-    },
-  );
+            res.json(doc);
+        },
+    );
 });
 
-router.delete('/:id', function(req, res, next) {
-  Log.findByIdAndDelete(
-    req.params.id,
-    function (err, log) {
-      if (err) res.send(err);
+router.delete('/:id', function (req, res, next) {
+    LogModel.findByIdAndDelete(req.params.id, null, function (err, doc) {
+        if (err) res.send(err);
 
-      res.json(log);
-    },
-  );
+        res.json(doc);
+    });
 });
 
-module.exports = router;
+export default router;

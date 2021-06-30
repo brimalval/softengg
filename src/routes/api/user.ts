@@ -1,65 +1,63 @@
-var express = require('express');
-var router = express.Router();
-var User = require('../../models/user');
+import { Router } from 'express';
+import { UserModel } from '../../models/user';
 
-router.post('/', function(req, res, next) {
-  new User({ 
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    email: req.body.email,
-    password: req.body.password,
-  }).save(function (err, user) {
-    if (err) res.send(err);
+var router = Router();
 
-    res.json(user);
- });
+router.post('/', function (req, res, next) {
+    new UserModel({
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        email: req.body.email,
+        password: req.body.password,
+    }).save(function (err, doc) {
+        if (err) res.send(err);
+
+        res.json(doc);
+    });
 });
 
-router.get('/', function(req, res, next) {
-  User.find(function (err, users) {
-    if (err) {
-      res.send(err);
-      return;
-    }
-    
-    res.json(users);
-  });
+router.get('/', function (req, res, next) {
+    UserModel.find(function (err, docs) {
+        if (err) {
+            res.send(err);
+            return;
+        }
+
+        res.json(docs);
+    });
 });
 
-router.get('/:id', function(req, res, next) {
-  User.findById(req.params.id, function (err, user) {
-    if (err) res.send(err);
+router.get('/:id', function (req, res, next) {
+    UserModel.findById(req.params.id, null, null, function (err, doc) {
+        if (err) res.send(err);
 
-    res.json(user);
-  });
+        res.json(doc);
+    });
 });
 
-router.patch('/:id', function(req, res, next) {
-  User.findByIdAndUpdate(
-    req.params.id,
-    {
-      $set: req.body,
-    },
-    {
-      new: true,
-    },
-    function (err, user) {
-      if (err) res.send(err);
+router.patch('/:id', function (req, res, next) {
+    UserModel.findByIdAndUpdate(
+        req.params.id,
+        {
+            $set: req.body,
+        },
+        {
+            new: true,
+        },
+        function (err, doc) {
+            if (err) res.send(err);
 
-      res.json(user);
-    },
-  );
+            res.json(doc);
+        },
+    );
 });
 
-router.delete('/:id', function(req, res, next) {
-  User.findByIdAndDelete(
-    req.params.id,
-    function (err, user) {
-      if (err) res.send(err);
+router.delete('/:id', function (req, res, next) {
+    UserModel.findByIdAndDelete(req.params.id, null, function (err, doc) {
+        if (err) res.send(err);
 
-      res.json(user);
-    },
-  );
+        res.json(doc);
+    });
 });
 
-module.exports = router;
+export default router;

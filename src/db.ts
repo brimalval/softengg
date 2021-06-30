@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 var mongoDB = 'mongodb+srv://fcgregorio:UwXUZqTml1s8hJ2E@cluster0.yr7lg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
-mongoose.connect(mongoDB, { useNewUrlParser: true , useUnifiedTopology: true});
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-module.exports = db;
+export default db;

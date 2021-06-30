@@ -1,30 +1,36 @@
-var mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-var Schema = mongoose.Schema;
+export interface Log {
+    project: Schema.Types.ObjectId,
+    action: String,
+    date: Date,
+    deliverables: String,
+    remarks: String,
+}
 
-var LogSchema = new Schema(
-  {
-    project: {
-        type: Schema.Types.ObjectId, 
-        ref: 'Project',
-        required: true,
-    },
-    action: {
-        type: String,
-        required: true,
-    },
-    date: {
-        type: Date,
-        required: true,
-    },
-    deliverables: {
-        type: String,
-        required: true,
-    },
-    remarks: {
-        type: String,
-    },
-  }
+const schema = new Schema<Log>(
+    {
+        project: {
+            type: Schema.Types.ObjectId,
+            ref: 'Project',
+            required: true,
+        },
+        action: {
+            type: String,
+            required: true,
+        },
+        date: {
+            type: Date,
+            required: true,
+        },
+        deliverables: {
+            type: String,
+            required: true,
+        },
+        remarks: {
+            type: String,
+        },
+    }
 );
 
-module.exports = mongoose.model('Log', LogSchema);
+export const LogModel = model<Log>('Log', schema);

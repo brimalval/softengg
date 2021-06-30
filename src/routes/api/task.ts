@@ -1,66 +1,64 @@
-var express = require('express');
-var router = express.Router();
-var Task = require('../../models/task');
+import { Router } from 'express';
+import { TaskModel } from '../../models/task';
 
-router.post('/', function(req, res, next) {
-  new Task({ 
-    project: req.body.project,
-    task: req.body.task,
-    description: req.body.description,
-    comments: req.body.comments,
-    date: req.body.date,
-    status: req.body.status,
-    is_active: req.body.is_active,
-    parent: req.body.parent,
-  }).save(function (err, task) {
-    if (err) res.send(err);
+var router = Router();
 
-    res.json(task);
- });
+router.post('/', function (req, res, next) {
+    new TaskModel({
+        project: req.body.project,
+        task: req.body.task,
+        description: req.body.description,
+        comments: req.body.comments,
+        date: req.body.date,
+        status: req.body.status,
+        is_active: req.body.is_active,
+        parent: req.body.parent,
+    }).save(function (err, doc) {
+        if (err) res.send(err);
+
+        res.json(doc);
+    });
 });
 
-router.get('/', function(req, res, next) {
-  Task.find(function (err, tasks) {
-    if (err) res.send(err);
+router.get('/', function (req, res, next) {
+    TaskModel.find(function (err, docs) {
+        if (err) res.send(err);
 
-    res.json(tasks);
-  });
+        res.json(docs);
+    });
 });
 
-router.get('/:id', function(req, res, next) {
-  Task.findById(req.params.id, function (err, task) {
-    if (err) res.send(err);
+router.get('/:id', function (req, res, next) {
+    TaskModel.findById(req.params.id, null, null, function (err, doc) {
+        if (err) res.send(err);
 
-    res.json(task);
-  });
+        res.json(doc);
+    });
 });
 
-router.patch('/:id', function(req, res, next) {
-  Task.findByIdAndUpdate(
-    req.params.id,
-    {
-      $set: req.body,
-    },
-    {
-      new: true,
-    },
-    function (err, task) {
-      if (err) res.send(err);
+router.patch('/:id', function (req, res, next) {
+    TaskModel.findByIdAndUpdate(
+        req.params.id,
+        {
+            $set: req.body,
+        },
+        {
+            new: true,
+        },
+        function (err, doc) {
+            if (err) res.send(err);
 
-      res.json(task);
-    },
-  );
+            res.json(doc);
+        },
+    );
 });
 
-router.delete('/:id', function(req, res, next) {
-  Task.findByIdAndDelete(
-    req.params.id,
-    function (err, task) {
-      if (err) res.send(err);
+router.delete('/:id', function (req, res, next) {
+    TaskModel.findByIdAndDelete(req.params.id, null, function (err, doc) {
+        if (err) res.send(err);
 
-      res.json(task);
-    },
-  );
+        res.json(doc);
+    });
 });
 
-module.exports = router;
+export default router;
