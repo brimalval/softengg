@@ -14,7 +14,15 @@ router.post('/', function (req, res, next) {
         deadline: req.body.deadline,
         engagement: req.body.engagement,
     }).save(function (err, doc) {
-        if (err) res.send(err);
+        if (err) {
+            res.sendStatus(500);
+            return;
+        }
+
+        if (doc == null) {
+            res.sendStatus(404);
+            return;
+        }
 
         res.json(doc);
     });
@@ -22,7 +30,15 @@ router.post('/', function (req, res, next) {
 
 router.get('/', function (req, res, next) {
     ProjectModel.find(function (err, docs) {
-        if (err) res.send(err);
+        if (err) {
+            res.sendStatus(500);
+            return;
+        }
+
+        if (docs == null) {
+            res.sendStatus(404);
+            return;
+        }
 
         res.json(docs);
     });
@@ -30,7 +46,15 @@ router.get('/', function (req, res, next) {
 
 router.get('/:id', function (req, res, next) {
     ProjectModel.findById(req.params.id, null, null, function (err, doc) {
-        if (err) res.send(err);
+        if (err) {
+            res.sendStatus(500);
+            return;
+        }
+
+        if (doc == null) {
+            res.sendStatus(404);
+            return;
+        }
 
         res.json(doc);
     });
@@ -46,7 +70,15 @@ router.patch('/:id', function (req, res, next) {
             new: true,
         },
         function (err, doc) {
-            if (err) res.send(err);
+            if (err) {
+                res.sendStatus(500);
+                return;
+            }
+
+            if (doc == null) {
+                res.sendStatus(404);
+                return;
+            }
 
             res.json(doc);
         },
@@ -55,7 +87,15 @@ router.patch('/:id', function (req, res, next) {
 
 router.delete('/:id', function (req, res, next) {
     ProjectModel.findByIdAndDelete(req.params.id, null, function (err, doc) {
-        if (err) res.send(err);
+        if (err) {
+            res.sendStatus(500);
+            return;
+        }
+
+        if (doc == null) {
+            res.sendStatus(404);
+            return;
+        }
 
         res.json(doc);
     });
