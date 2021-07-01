@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { tasks } from "../../utils/consts";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { TaskColumn } from "./";
 import { AppBar, Grid, Tabs, Tab, Typography } from "@material-ui/core";
-
+import { useHistory, useLocation, useParams } from "react-router-dom";
 interface ColumnListProps {
     tasks: typeof tasks;
 }
@@ -23,7 +23,22 @@ class ColumnList extends React.PureComponent<ColumnListProps> {
     }
 }
 
+const getBaseURL = (location: { pathname: string } ) => {
+    return location.pathname.slice(0, location.pathname.lastIndexOf("/"));
+};
+
 const Home = () => {
+    const location = useLocation();
+    const { sub } = useParams<{ sub: string | undefined }>();
+
+    const [currTasks, setTasks] = useState(tasks);
+    const [tab, setTab] = useState(sub ? sub : "main");
+
+    useEffect(() => {
+        setTab(sub ? sub : "main");
+    }, [sub])
+
+
     const handleDragEnd = (result: DropResult) => {
         const destination = result.destination?.droppableId;
         const source = result.source.droppableId;
@@ -77,12 +92,12 @@ const Home = () => {
         });
     };
 
+    const history = useHistory();
     const handleTabs = (event: React.ChangeEvent<{}>, newValue: string) => {
+        history.push(getBaseURL(location) + "/" + newValue);
         setTab(newValue);
     };
 
-    const [currTasks, setTasks] = useState(tasks);
-    const [tab, setTab] = useState("main");
 
     return (
         <DragDropContext onDragEnd={handleDragEnd}>
